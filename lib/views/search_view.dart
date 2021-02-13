@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wallpaper/api/wallpaper.dart';
 import 'package:wallpaper/components/brand.dart';
 import 'package:wallpaper/components/photo_list.dart';
 import 'package:wallpaper/components/search.dart';
 import 'package:wallpaper/models/Photo.dart';
-import 'package:wallpaper/services/photo_service.dart';
 
 class SearchView extends StatefulWidget {
   final String initialText;

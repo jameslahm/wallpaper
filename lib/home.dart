@@ -3,10 +3,12 @@ import 'package:wallpaper/components/brand.dart';
 import 'package:wallpaper/components/categorie_tile.dart';
 import 'package:wallpaper/components/photo_list.dart';
 import 'package:wallpaper/models/Photo.dart';
-import 'package:wallpaper/services/categorie_service.dart';
-import 'package:wallpaper/services/photo_service.dart';
 import 'package:wallpaper/components/search.dart';
+import 'package:wallpaper/models/categorie.dart';
+import 'package:wallpaper/size_config.dart';
 import 'package:wallpaper/views/search_view.dart';
+import 'package:wallpaper/utils/constant.dart';
+import 'package:wallpaper/api/wallpaper.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -14,16 +16,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  CategorieService _categorieService;
+  List<Categorie> _categories;
   List<Photo> photos;
   int numOfImages = 30;
 
   @override
   void initState() {
     super.initState();
-    _categorieService = CategorieService();
-    print("$_categorieService");
-
+    _categories = getInitCategories();
     getTrendingWallpaper(numOfImages: numOfImages).then((value) {
       setState(() {
         photos = value;
@@ -35,8 +35,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final categories = _categorieService.categories;
-
+    SizeConfig.init(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -59,18 +58,21 @@ class _HomeState extends State<Home> {
                 height: 8,
               ),
               Container(
-                height: 80,
+                height: 50,
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 24),
-                  itemCount: categories.length,
+                  itemCount: _categories.length,
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return CategorieTile(
-                        imgUrl: categories[index].imgUrl,
-                        categorieName: categories[index].categorieName);
+                        imgUrl: _categories[index].imgUrl,
+                        categorieName: _categories[index].categorieName);
                   },
                 ),
+              ),
+              SizedBox(
+                height: 8,
               ),
               PhotoList(photos: photos ?? [])
             ],

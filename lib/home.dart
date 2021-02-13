@@ -6,6 +6,7 @@ import 'package:wallpaper/models/Photo.dart';
 import 'package:wallpaper/services/categorie_service.dart';
 import 'package:wallpaper/services/photo_service.dart';
 import 'package:wallpaper/components/search.dart';
+import 'package:wallpaper/views/search_view.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> {
     _categorieService = CategorieService();
     print("$_categorieService");
 
-    PhotoService.getTrendingWallpaper(numOfImages: numOfImages).then((value) {
+    getTrendingWallpaper(numOfImages: numOfImages).then((value) {
       setState(() {
         photos = value;
       });
@@ -48,7 +49,10 @@ class _HomeState extends State<Home> {
             children: [
               SearchBar(onTap: (TextEditingController _controller) {
                 if (_controller.text != "") {
-                  Navigator.of(context).push(MaterialPageRoute(builder: null));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return SearchView(initialText: _controller.text);
+                  }));
                 }
               }),
               SizedBox(

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
   final Function onTap;
+  final String initialText;
 
-  SearchBar({@required this.onTap});
+  SearchBar({@required this.onTap, this.initialText});
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -11,6 +12,14 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   final _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialText != null) {
+      _controller.text = widget.initialText;
+    }
+  }
 
   @override
   void dispose() {
@@ -36,7 +45,9 @@ class _SearchBarState extends State<SearchBar> {
           ),
           InkWell(
             child: Container(child: Icon(Icons.search)),
-            onTap: widget.onTap(_controller),
+            onTap: () {
+              widget.onTap(_controller);
+            },
           )
         ],
       ),

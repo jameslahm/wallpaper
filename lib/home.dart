@@ -5,7 +5,7 @@ import 'package:wallpaper/components/photo_list.dart';
 import 'package:wallpaper/models/Photo.dart';
 import 'package:wallpaper/services/categorie_service.dart';
 import 'package:wallpaper/services/photo_service.dart';
-import 'package:wallpaper/views/search.dart';
+import 'package:wallpaper/components/search.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -46,7 +46,11 @@ class _HomeState extends State<Home> {
         child: Container(
           child: Column(
             children: [
-              SearchBar(),
+              SearchBar(onTap: (TextEditingController _controller) {
+                if (_controller.text != "") {
+                  Navigator.of(context).push(MaterialPageRoute(builder: null));
+                }
+              }),
               SizedBox(
                 height: 8,
               ),
